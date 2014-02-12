@@ -30,11 +30,13 @@ body #error-page p.error-message {
     text-transform: uppercase;
 }
 body #error-page a {
-    color: #44C5EF;
+    padding: 5px 35px;
+    font-size: 16px;
     text-decoration: none;
     font-weight: bold;
+    text-transform: capitalize;
 }
 body #error-page a:hover {
-    color: #62D3F8;
+    background-color: #98BED3;
     text-decoration: none;
 }

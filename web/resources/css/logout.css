@@ -1,0 +1,40 @@
+
+body {
+    background: none repeat scroll 0 0 #F5F5F5;
+}
+body #error-page {
+    background: url("../resources/images/logout.png") no-repeat scroll 100% 0 rgba(0, 0, 0, 0);
+    margin: 100px auto 20px;
+    max-width: 650px;
+    min-height: 400px;
+    padding: 19px 29px 29px;
+}
+body #error-page > div {
+    float: right;
+    margin-right: 320px;
+    text-align: right;
+}
+body #error-page h1.error-code {
+    color: #F5ACAC;
+    font-family: Impact;
+    font-size: 180px;
+    line-height: 180px;
+    text-shadow: 0 1px #944040;
+}
+body #error-page p.error-message {
+    color: #999999;
+    font-size: 24px;
+    line-height: 24px;
+    margin-right: 10px;
+    text-shadow: 0 1px #FFFFFF;
+    text-transform: uppercase;
+}
+body #error-page a {
+    color: #44C5EF;
+    text-decoration: none;
+    font-weight: bold;
+}
+body #error-page a:hover {
+    color: #62D3F8;
+    text-decoration: none;
+}

@@ -27,9 +27,8 @@
                     <span id="dialog-countdown" style="font-weight: bold"></span>
                     seconde(s)
                 </p:panel>
-                <p style="text-align: center;font-weight: bold;">Cliquez sur «OK» pour étendre votre session. </p>
-                <p style="text-align: center"><p:commandButton value="OK"
-                                                               onclick="timeoutDialog.hide()"/></p>
+                <p style="text-align: center;">Cliquez sur «OK» pour étendre votre session. </p>
+                <p style="text-align: center"><p:commandButton value="OK" onclick="timeoutDialog.hide()"/></p>
             </p:dialog>
             <p:remoteCommand name="keepAlive" actionListener="#{signInBean.keepSessionAlive}" />
         </h:form>
@@ -38,7 +37,7 @@
             var countTimer = TIME;
             var processTimer;
             var timer_is_on = 0;
-            var redirectPage = "#{request.contextPath}";
+            var redirectPage = "#{request.contextPath}/faces/sections/system/logout.xhtml";
 
             var countDownDiv = "dialog-countdown";
             var txtCountDown = null;

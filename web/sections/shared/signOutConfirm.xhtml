@@ -5,11 +5,18 @@
         <p:confirmDialog message="Etes-vous sûre de vouloir vous déconnecter?"
                          header="Déconnexion" severity="alert" showEffect="clip" hideEffect="clip"
                          widgetVar="SignOutConfirm">
-            <p:commandButton value="Oui" 
+            <p:commandButton value="Oui"
                              oncomplete="PF('SignOutConfirm').hide()"
+                             onclick="signOut()"
                              icon="ui-icon-check"/>
-            <p:commandButton value="Non" onclick="PF('SignOutConfirm').hide();" 
+            <p:commandButton value="Non" onclick="PF('SignOutConfirm').hide();"
                              type="button" icon="ui-icon-close"/>
         </p:confirmDialog>
+        <script type="text/javascript">
+            var redirectPage = "#{request.contextPath}/faces/sections/system/logout.xhtml";
+            function signOut() {
+                window.location.href = redirectPage;
+            }
+        </script>
     </ui:composition>
 </html>

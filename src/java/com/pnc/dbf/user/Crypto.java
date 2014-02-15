@@ -2,24 +2,19 @@ package com.pnc.dbf.user;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import sun.misc.BASE64Encoder;
 
 public class Crypto {
 
-    public Crypto() {
+    public static String encryption(String message) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            digest.update("bokanga".getBytes());
+            digest.update(message.getBytes());
             BASE64Encoder encoder = new BASE64Encoder();
-            System.err.println(encoder.encode(digest.digest()));
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Crypto.class.getName()).log(Level.SEVERE, null, ex);
+            return encoder.encode(digest.digest());
+        } catch (NoSuchAlgorithmException ns) {
+            ns.printStackTrace();
+            return message;
         }
-    }
-
-    public static void main(String[] args) {
-        new Crypto();
     }
 }

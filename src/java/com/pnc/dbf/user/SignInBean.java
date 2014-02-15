@@ -36,7 +36,7 @@ public class SignInBean implements Serializable {
         String query = "select * from t_user where username = ? and password = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(getUserName());
-        parameter.add(getPassword());
+        parameter.add(Crypto.encryption(getPassword()));
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             if (!isValideUserName()) {

@@ -19,7 +19,6 @@ public class DBConnection implements Serializable {
     private static final String PROPERTY_DRIVER = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "username";
     private static final String PROPERTY_MOT_DE_PASSE = "password";
-    /*-Fin-*/
 
     Connection con;
 
@@ -50,18 +49,18 @@ public class DBConnection implements Serializable {
 
     public Connection getConnection() {
         if (con == null) {
-            DBConnection dbConnection = new DBConnection();
+            new DBConnection();
         }
         return con;
     }
 
     public ResultSet getResult(String query) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(query);
+        PreparedStatement ps = getConnection().prepareStatement(query);
         return ps.executeQuery();
     }
 
     public ResultSet getResult(String query, ArrayList parameter) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(query);
+        PreparedStatement ps = getConnection().prepareStatement(query);
         for (int i = 0; i < parameter.size(); i++) {
             ps.setString(i + 1, parameter.get(i).toString());
         }
@@ -69,7 +68,7 @@ public class DBConnection implements Serializable {
     }
 
     public int setUpdateDB(String query, ArrayList parameter) throws SQLException {
-        PreparedStatement ps = con.prepareStatement(query);
+        PreparedStatement ps = getConnection().prepareStatement(query);
         for (int i = 0; i < parameter.size(); i++) {
             ps.setString(i + 1, parameter.get(i).toString());
         }

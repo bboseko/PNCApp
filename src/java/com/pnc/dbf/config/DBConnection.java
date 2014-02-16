@@ -17,8 +17,8 @@ public class DBConnection implements Serializable {
     private static final String FICHIER_PROPERTIES = "/com/pnc/dbf/config/Config.properties";
     private static final String PROPERTY_URL = "url";
     private static final String PROPERTY_DRIVER = "driver";
-    private static final String PROPERTY_NOM_UTILISATEUR = "user";
-    private static final String PROPERTY_MOT_DE_PASSE = "pwd";
+    private static final String PROPERTY_NOM_UTILISATEUR = "username";
+    private static final String PROPERTY_MOT_DE_PASSE = "password";
     /*-Fin-*/
 
     Connection con;
@@ -41,17 +41,16 @@ public class DBConnection implements Serializable {
         }
         try {
             con = DriverManager.getConnection(properties.getProperty(PROPERTY_URL),
-                    properties.getProperty(PROPERTY_NOM_UTILISATEUR), properties.getProperty(PROPERTY_MOT_DE_PASSE));
+                    properties.getProperty(PROPERTY_NOM_UTILISATEUR),
+                    properties.getProperty(PROPERTY_MOT_DE_PASSE));
         } catch (SQLException ex) {
             throw new DAOConfigurationException("Impossible d'etablir la connexion !", ex);
         }
-
     }
 
     public Connection getConnection() {
         if (con == null) {
-            new DBConnection();
-        } else {
+            DBConnection dbConnection = new DBConnection();
         }
         return con;
     }

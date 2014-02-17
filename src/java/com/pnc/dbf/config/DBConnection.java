@@ -20,7 +20,7 @@ public class DBConnection implements Serializable {
     private static final String PROPERTY_NOM_UTILISATEUR = "username";
     private static final String PROPERTY_MOT_DE_PASSE = "password";
 
-    Connection con;
+    public static Connection con;
 
     public DBConnection() {
         Properties properties = new Properties();
@@ -47,19 +47,19 @@ public class DBConnection implements Serializable {
         }
     }
 
-    public Connection getConnection() {
+    public static Connection getConnection() {
         if (con == null) {
             new DBConnection();
         }
         return con;
     }
 
-    public ResultSet getResult(String query) throws SQLException {
+    public static ResultSet getResult(String query) throws SQLException {
         PreparedStatement ps = getConnection().prepareStatement(query);
         return ps.executeQuery();
     }
 
-    public ResultSet getResult(String query, ArrayList parameter) throws SQLException {
+    public static ResultSet getResult(String query, ArrayList parameter) throws SQLException {
         PreparedStatement ps = getConnection().prepareStatement(query);
         for (int i = 0; i < parameter.size(); i++) {
             ps.setString(i + 1, parameter.get(i).toString());
@@ -67,7 +67,7 @@ public class DBConnection implements Serializable {
         return ps.executeQuery();
     }
 
-    public int setUpdateDB(String query, ArrayList parameter) throws SQLException {
+    public static int setUpdateDB(String query, ArrayList parameter) throws SQLException {
         PreparedStatement ps = getConnection().prepareStatement(query);
         for (int i = 0; i < parameter.size(); i++) {
             ps.setString(i + 1, parameter.get(i).toString());

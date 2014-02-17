@@ -26,10 +26,8 @@ public class SignInBean implements Serializable {
     private String firstname, familyname;
     private String profile;
     private int idUser, idProfile;
-    private DBConnection dbConnection;
 
     public SignInBean() {
-        dbConnection = new DBConnection();
     }
 
     public String logInUser() {
@@ -48,7 +46,7 @@ public class SignInBean implements Serializable {
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Compte bloqué", ""
                             + "Votre compte a été bloqué, veuillez contacter l'administrateur du système ..."));
                 } else {
-                    ResultSet res = dbConnection.getResult(query, parameter);
+                    ResultSet res = DBConnection.getResult(query, parameter);
                     if (res.next()) {
                         idProfile = res.getInt("id_profile");
                         profile = getProfileDB();
@@ -89,14 +87,14 @@ public class SignInBean implements Serializable {
         ArrayList parameter = new ArrayList();
         parameter.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new DateFormatSymbols()).format(new Date()));
         parameter.add(idUser);
-        return dbConnection.setUpdateDB(query, parameter);
+        return DBConnection.setUpdateDB(query, parameter);
     }
 
     private boolean isValideUserName() throws SQLException {
         String query = "select * from t_user where username = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(userName);
-        ResultSet res = dbConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResult(query, parameter);
         return res.next();
     }
 
@@ -105,7 +103,7 @@ public class SignInBean implements Serializable {
         ArrayList parameter = new ArrayList();
         parameter.add(idUser);
         parameter.add(1);
-        ResultSet res = dbConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResult(query, parameter);
         return res.next();
     }
 
@@ -114,14 +112,14 @@ public class SignInBean implements Serializable {
         ArrayList parameter = new ArrayList();
         parameter.add(attempt);
         parameter.add(idUser);
-        return dbConnection.setUpdateDB(query, parameter);
+        return DBConnection.setUpdateDB(query, parameter);
     }
 
     private int getAttempt() throws SQLException {
         String query = "select attempt from t_user where id_user = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(idUser);
-        ResultSet res = dbConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResult(query, parameter);
         while (res.next()) {
             return Integer.parseInt(res.getString(1));
         }
@@ -132,7 +130,7 @@ public class SignInBean implements Serializable {
         String query = "select id_user from t_user where username = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(getUserName());
-        ResultSet res = dbConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResult(query, parameter);
         while (res.next()) {
             return Integer.parseInt(res.getString(1));
         }
@@ -143,7 +141,7 @@ public class SignInBean implements Serializable {
         String query = "select status from t_user where id_user = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(idUser);
-        ResultSet res = dbConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResult(query, parameter);
         while (res.next()) {
             return Integer.parseInt(res.getString(1));
         }
@@ -155,26 +153,18 @@ public class SignInBean implements Serializable {
         ArrayList parameter = new ArrayList();
         parameter.add(status);
         parameter.add(idUser);
-        return dbConnection.setUpdateDB(query, parameter);
+        return DBConnection.setUpdateDB(query, parameter);
     }
 
     private String getProfileDB() throws SQLException {
         String query = "select profile_name from t_profile where id_profile = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(idProfile);
-        ResultSet res = dbConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResult(query, parameter);
         while (res.next()) {
             return res.getString(1);
         }
         return null;
-    }
-
-    public DBConnection getDbConnection() {
-        return dbConnection;
-    }
-
-    public void setDbConnection(DBConnection dbConnection) {
-        this.dbConnection = dbConnection;
     }
 
     public String getUserName() {

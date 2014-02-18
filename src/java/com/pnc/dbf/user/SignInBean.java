@@ -15,6 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @ManagedBean
 @SessionScoped
@@ -25,7 +26,7 @@ public class SignInBean implements Serializable {
     private String password;
     private String firstname, familyname;
     private String profile;
-    private int idUser, idProfile;
+    private int idUser, idProfile, attempt = 0;
 
     public SignInBean() {
     }
@@ -50,7 +51,7 @@ public class SignInBean implements Serializable {
                     if (res.next()) {
                         idProfile = res.getInt("id_profile");
                         profile = getProfileDB();
-                        setAttempt(0);
+                        attempt = 0;
                         updateLastVisiteDate();
                         firstname = res.getString(4);
                         familyname = res.getString(5);
@@ -63,13 +64,12 @@ public class SignInBean implements Serializable {
                         }
                         return "views/home";
                     } else {
-                        int attempt = getAttempt() + 1;
+                        attempt++;
                         if ((3 - attempt) <= 0) {
                             setStatus(0);
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Compte bloqué", ""
-                                    + "Votre compte a été bloqué, veuillez contacter l'administrateur du système ..."));
+                                    + "Votre compte a été bloqué, veuillez contacter l'administrateur informatique du système ..."));
                         } else {
-                            setAttempt(attempt);
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Mot de passe incorrect", ""
                                     + "Le mot de passe saisi n'est pas valide ! Il vous reste " + (3 - attempt) + " tentatives"));
                         }
@@ -105,25 +105,6 @@ public class SignInBean implements Serializable {
         parameter.add(1);
         ResultSet res = DBConnection.getResult(query, parameter);
         return res.next();
-    }
-
-    private int setAttempt(int attempt) throws SQLException {
-        String query = "update t_user set attempt = ? where id_user = ?";
-        ArrayList parameter = new ArrayList();
-        parameter.add(attempt);
-        parameter.add(idUser);
-        return DBConnection.setUpdateDB(query, parameter);
-    }
-
-    private int getAttempt() throws SQLException {
-        String query = "select attempt from t_user where id_user = ?";
-        ArrayList parameter = new ArrayList();
-        parameter.add(idUser);
-        ResultSet res = DBConnection.getResult(query, parameter);
-        while (res.next()) {
-            return Integer.parseInt(res.getString(1));
-        }
-        return 0;
     }
 
     private int getIdUserFromDB() throws SQLException {
@@ -227,5 +208,11 @@ public class SignInBean implements Serializable {
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
         request.getSession();
+    }
+
+    public void logOut() {
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+        session.invalidate();
     }
 }

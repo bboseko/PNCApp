@@ -18,6 +18,7 @@
         </h:head>
         <h:body>
             <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();"/>
+            <p:growl id="growlHome" showDetail="true" autoUpdate="true"/>
             <p:layout id="fpl" fullPage="true">
                 <p:layoutUnit position="north">
                     <h:form id="headerForm" prependId="false">

@@ -7,7 +7,7 @@
                          widgetVar="SignOutConfirm">
             <p:commandButton value="Oui"
                              oncomplete="PF('SignOutConfirm').hide()"
-                             onclick="signOut()"
+                             onclick="signOut()" actionListener="#{signInBean.logOut()}"
                              icon="ui-icon-check"/>
             <p:commandButton value="Non" onclick="PF('SignOutConfirm').hide();"
                              type="button" icon="ui-icon-close"/>

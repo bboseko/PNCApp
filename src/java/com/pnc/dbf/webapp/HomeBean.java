@@ -15,7 +15,6 @@ import org.primefaces.model.menu.MenuModel;
 @ManagedBean
 public class HomeBean {
 
-    private final DBConnection dbConnection = new DBConnection();
     private MenuModel model = new DefaultMenuModel();
 
     public HomeBean() throws SQLException {
@@ -24,7 +23,7 @@ public class HomeBean {
 
         ArrayList parameter = new ArrayList();
         parameter.add(Integer.parseInt(binding.getValue(context).toString()));
-        ResultSet res = dbConnection.getResult("select * from t_module inner join t_access on "
+        ResultSet res = DBConnection.getResult("select * from t_module inner join t_access on "
                 + "t_access.id_module = t_module.id_module where id_profile = ?", parameter);
         while (res.next()) {
             DefaultMenuItem item = new DefaultMenuItem(res.getString("module_name"));
@@ -35,6 +34,10 @@ public class HomeBean {
             item.setStyleClass("#{navigationContext.getMenuitemStyleClass('" + res.getString("command") + "')}");
             model.addElement(item);
         }
+    }
+
+    public void testMessage() {
+        addMessage(FacesMessage.SEVERITY_INFO, "Test", "Hello guy, this is the first test of my app");
     }
 
     private void addMessage(FacesMessage.Severity severity, String title, String message) {

@@ -14,15 +14,13 @@ import org.primefaces.model.menu.MenuModel;
 
 @ManagedBean
 @SessionScoped
-public class Submodule implements Serializable{
-
-    private final DBConnection dbConnection = new DBConnection();
+public class Submodule implements Serializable {
 
     public MenuModel getSubmodules(int idModule) throws SQLException {
         MenuModel modelSubmodule = new DefaultMenuModel();
         ArrayList parameter = new ArrayList();
         parameter.add(idModule);
-        ResultSet res = dbConnection.getResult("select * from t_submodule where id_module = ?", parameter);
+        ResultSet res = DBConnection.getResult("select * from t_submodule where id_module = ?", parameter);
         while (res.next()) {
             DefaultMenuItem item = new DefaultMenuItem(res.getString("submodule_name"));
             item.setCommand(res.getString("command"));

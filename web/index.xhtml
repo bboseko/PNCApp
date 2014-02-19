@@ -5,8 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Authentification</title>
-        <link type="image/x-icon" rel="shortcut icon" href="./resources/images/favicon.ico" />
+        <title>#{msg['autentication.title']}</title>
+        <link type="image/x-icon" rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon.ico" />
         <link type="text/css" href="./resources/css/authen.css" rel="stylesheet" />
     </h:head>
     <h:body>
@@ -32,23 +32,23 @@
                     <h:form id="loginform" >
                         <p:messages id="messagesSingIn" closable="true" autoUpdate="true" />
                         <p:inputText id="username" value="#{signInBean.userName}" required="true"
-                                     requiredMessage="Identifiant requis" />
-                        <p:watermark for="username" value="Nom d\'utilisateur" />
+                                     requiredMessage="#{msg['autentication.usernameRequired']}" />
+                        <p:watermark for="username" value="#{msg['autentication.username']}" />
 
                         <p:password id="password" value="#{signInBean.password}" required="true"
-                                    requiredMessage="Mot de passe requis" />
-                        <p:watermark for="password" value="Mot de passe" />
+                                    requiredMessage="#{msg['autentication.passwordRequired']}" />
+                        <p:watermark for="password" value="#{msg['autentication.password']}" />
 
                         <p:commandButton id="SignIn" value="Connexion" action="#{signInBean.logInUser()}"
                                          update=":growl,loginform" style="width: 274px;"/>
                         <a href="#" target="_blank" style="font-size: 12px;margin-top: 6px;
-                           float: right;text-decoration: none;">Besoin d'aide?</a>
+                           float: right;text-decoration: none;">#{msg['autentication.help']}</a>
                         <ui:include src="/sections/shared/statusDialog.xhtml"/>
                     </h:form>
                 </div>
                 <div class="copyright-dbf">
                     <p style="font-size: 11px;">
-                        Copyright © 2013 Police Nationale Congolaise. Tous Droits Réservés.
+                        #{msg['autentication.copyright']}
                     </p>
                 </div>
             </div>
@@ -57,15 +57,15 @@
                     <div class="footer content clearfix">
                         <ul id="footer-list">
                             <li>
-                                Ce logiciel a été développé par la Fondation
-                                <a href="mailto:gbombambo@gmail.com">TIC pour Tous</a> &reg;
+                                #{msg['autentication.ticMessage']}
+                                <a href="mailto:gbombambo@gmail.com">#{msg['autentication.ticName']}</a> &reg;
                             </li>
                         </ul>
                         <div style="display: inline;" id="lang-vis-control">
                             <span class="lang-chooser-wrap" id="lang-chooser-wrap">
                                 <select name="lang-chooser" class="lang-chooser" id="lang-chooser">
                                     <option selected="selected" value="fr">
-                                        ‪Français
+                                        ‪#{msg['autentication.language']}
                                     </option>
                                 </select>
                             </span>

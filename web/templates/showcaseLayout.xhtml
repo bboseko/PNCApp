@@ -84,7 +84,12 @@
                               text-align: center;">
                     <h:outputText value="Sous-fonctionnalités"/>
                 </h:panelGroup>
-                <ui:insert name="subModule"/>
+                <p:layoutUnit position="center">
+                    <ui:insert name="subModule"/>
+                </p:layoutUnit>
+                <p:layoutUnit position="south">
+                    <ui:insert name="operation"/>
+                </p:layoutUnit>
             </p:layoutUnit>
         </ui:define>
         <ui:define name="footer">

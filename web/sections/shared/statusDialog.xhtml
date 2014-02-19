@@ -2,9 +2,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <ui:composition>
-        <p:dialog modal="true" widgetVar="statusDialog" header="Exécution en cours ..."   
+        <p:dialog modal="true" widgetVar="statusDialog" header="#{msg['statusDialog.headerTitle']}"
                   draggable="false" closable="false" resizable="false">
             <p:graphicImage value="/resources/images/ajaxloadingbar.gif" />
         </p:dialog>
     </ui:composition>
-</html>     
+</html>

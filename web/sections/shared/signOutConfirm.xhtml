@@ -2,14 +2,16 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <ui:composition>
-        <p:confirmDialog message="Etes-vous sûre de vouloir vous déconnecter?"
-                         header="Déconnexion" severity="alert" showEffect="clip" hideEffect="clip"
+        <p:confirmDialog message="#{msg['signOutConfirm.messageConfirm']}"
+                         header="#{msg['signOutConfirm.messageTitle']}" severity="alert"
+                         showEffect="clip"
+                         hideEffect="clip"
                          widgetVar="SignOutConfirm">
-            <p:commandButton value="Oui"
+            <p:commandButton value="#{msg['signOutConfirm.yesOption']}"
                              oncomplete="PF('SignOutConfirm').hide()"
                              onclick="signOut()" actionListener="#{signInBean.logOut()}"
                              icon="ui-icon-check"/>
-            <p:commandButton value="Non" onclick="PF('SignOutConfirm').hide();"
+            <p:commandButton value="#{msg['signOutConfirm.noOption']}" onclick="PF('SignOutConfirm').hide();"
                              type="button" icon="ui-icon-close"/>
         </p:confirmDialog>
         <script type="text/javascript">

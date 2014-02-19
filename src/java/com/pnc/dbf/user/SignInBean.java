@@ -8,6 +8,7 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpSession;
 
 public class SignInBean implements Serializable {
 
+    ResourceBundle message = ResourceBundle.getBundle("language.message");
     private String userName;
     private String password;
     private String firstname, familyname;
@@ -32,20 +34,22 @@ public class SignInBean implements Serializable {
     }
 
     public String logInUser() {
+        FacesContext context = FacesContext.getCurrentInstance();
         String query = "select * from t_user where username = ? and password = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(getUserName());
         parameter.add(Crypto.encryption(getPassword()));
-        FacesContext context = FacesContext.getCurrentInstance();
         try {
             if (!isValideUserName()) {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Nom d'utilisateur incorrect", ""
-                        + "Le nom d'utilisateur saisi n'existe pas dans l'annuaire !!!"));
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                        message.getString("SignInBean.usernameIncorrectTitle"),
+                        message.getString("SignInBean.usernameIncorrectMessage")));
             } else {
                 idUser = getIdUserFromDB();
                 if (getStatus() == 0) {
-                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Compte bloqué", ""
-                            + "Votre compte a été bloqué, veuillez contacter l'administrateur du système ..."));
+                    context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                            message.getString("SignInBean.accountLockedTitle"),
+                            message.getString("SignInBean.accountLockedMessage")));
                 } else {
                     ResultSet res = DBConnection.getResult(query, parameter);
                     if (res.next()) {
@@ -55,23 +59,27 @@ public class SignInBean implements Serializable {
                         updateLastVisiteDate();
                         firstname = res.getString(4);
                         familyname = res.getString(5);
-                        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenu", ""
-                                + "Bonjour " + firstname + " " + familyname));
+                        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
+                                message.getString("SignInBean.welcomeMessage"),
+                                message.getString("SignInBean.helloMessage") + " " + firstname + " " + familyname));
                         if (isNewUser()) {
-                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Changer votre Mot de passe", ""
-                                    + "Vous devez changer votre mot de passe car vous utilisez encore celui "
-                                    + "reçu auprès de l'administrateur"));
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                    message.getString("SignInBean.changePasswordTitle"),
+                                    message.getString("SignInBean.changePasswordMessage")));
                         }
                         return "views/home";
                     } else {
                         attempt++;
                         if ((3 - attempt) <= 0) {
                             setStatus(0);
-                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Compte bloqué", ""
-                                    + "Votre compte a été bloqué, veuillez contacter l'administrateur informatique du système ..."));
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
+                                    message.getString("SignInBean.accountLockedTitle"),
+                                    message.getString("SignInBean.accountLockedMessage")));
                         } else {
-                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Mot de passe incorrect", ""
-                                    + "Le mot de passe saisi n'est pas valide ! Il vous reste " + (3 - attempt) + " tentatives"));
+                            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
+                                    message.getString("SignInBean.passwordIncorrectTitle"),
+                                    message.getString("SignInBean.passwordIncorrectMessage1") + " " + (3 - attempt) + " "
+                                    + message.getString("SignInBean.passwordIncorrectMessage2")));
                         }
                     }
                 }

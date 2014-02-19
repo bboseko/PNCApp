@@ -5,9 +5,7 @@
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <application>
         <resource-bundle>
-            <base-name>
-                language/message
-            </base-name>
+            <base-name>language.message</base-name>
             <var>msg</var>
         </resource-bundle>
     </application>

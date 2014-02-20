@@ -38,7 +38,7 @@
                     <p:splitButton value="#{msg['masterLayout.header.logOutButton']}"
                                    onclick="PF('SignOutConfirm').show();"
                                    icon="ui-icon-extlink">
-                        <p:menuitem value="#{msg['masterLayout.header.editButton']} #{signInBean.userName}"
+                        <p:menuitem value="#{msg['masterLayout.header.editButton']} #{user.userName}"
                                     icon="ui-icon-pencil"/>
                         <p:separator />
                         <p:menuitem value="#{msg['masterLayout.menuHome']}" action="home" icon="ui-icon-home" />

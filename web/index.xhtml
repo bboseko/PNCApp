@@ -31,15 +31,15 @@
                     <img alt="" src="resources/images/avatar.png" class="profile-img" />
                     <h:form id="loginform" >
                         <p:messages id="messagesSingIn" closable="true" autoUpdate="true" />
-                        <p:inputText id="username" value="#{signInBean.userName}" required="true"
+                        <p:inputText id="username" value="#{user.userName}" required="true"
                                      requiredMessage="#{msg['autentication.usernameRequired']}" />
                         <p:watermark for="username" value="#{msg['autentication.username']}" />
 
-                        <p:password id="password" value="#{signInBean.password}" required="true"
+                        <p:password id="password" value="#{user.password}" required="true"
                                     requiredMessage="#{msg['autentication.passwordRequired']}" />
                         <p:watermark for="password" value="#{msg['autentication.password']}" />
 
-                        <p:commandButton id="SignIn" value="Connexion" action="#{signInBean.logInUser()}"
+                        <p:commandButton id="SignIn" value="Connexion" action="#{user.login()}"
                                          update=":growl,loginform" style="width: 274px;"/>
                         <a href="#" target="_blank" style="font-size: 12px;margin-top: 6px;
                            float: right;text-decoration: none;">#{msg['autentication.help']}</a>

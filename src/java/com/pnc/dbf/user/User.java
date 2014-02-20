@@ -1,7 +1,13 @@
 package com.pnc.dbf.user;
 
+import com.pnc.dbf.sec.Authentification;
 import java.io.Serializable;
+import java.util.HashMap;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 
+@ManagedBean
+@SessionScoped
 public class User implements Serializable {
 
     private String firstName;
@@ -13,10 +19,11 @@ public class User implements Serializable {
     private String grade;
     private String userName;
     private String password;
-    private int profile;
+    private Integer idProfile;
+    private String[] paths;
+    private HashMap modules;
 
     public User() {
-
     }
 
     public User(String userName, String password) {
@@ -27,7 +34,7 @@ public class User implements Serializable {
     public User(String userName, String password, int profile) {
         this.userName = userName;
         this.password = password;
-        this.profile = profile;
+        this.idProfile = profile;
     }
 
     public User(String firstName, String familyName, String otherName, String userName, String password) {
@@ -110,11 +117,43 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getProfile() {
-        return profile;
+    public Integer getIdProfile() {
+        return idProfile;
+    } 
+
+    
+
+    private Integer getProfile() throws Exception {
+        return new Authentification().getUserProfile(this);
     }
 
-    public void setProfile(int profile) {
-        this.profile = profile;
+    public void setIdProfile(Integer idProfile) {
+        this.idProfile = idProfile;
+    }
+
+    public String login() throws Exception {
+        System.out.println("login debute");
+        this.setIdProfile(getProfile());
+        if (this.idProfile != null) {
+            this.modules = new Authentification().getUserModules(this);
+        }
+        System.out.println("login fini");
+        return new Authentification().enter(this);
+    }
+
+    public String[] getPaths() {
+        return paths;
+    }
+
+    public void setPaths(String[] paths) {
+        this.paths = paths;
+    }
+
+    public HashMap getModules() {
+        return modules;
+    }
+
+    public void setModules(HashMap modules) {
+        this.modules = modules;
     }
 }

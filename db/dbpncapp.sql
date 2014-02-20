@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (32 bit)
 MySQL - 5.5.34 : Database - dbpncapp
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -12,6 +13,7 @@ MySQL - 5.5.34 : Database - dbpncapp
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+drop database if exists`dbpncapp`;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`dbpncapp` /*!40100 DEFAULT CHARACTER SET utf8 */;
 
 USE `dbpncapp`;

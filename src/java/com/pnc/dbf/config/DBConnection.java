@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 public class DBConnection implements Serializable {
     /*Parametres fichier Config */
@@ -19,10 +21,9 @@ public class DBConnection implements Serializable {
     private static final String PROPERTY_DRIVER = "driver";
     private static final String PROPERTY_NOM_UTILISATEUR = "username";
     private static final String PROPERTY_MOT_DE_PASSE = "password";
-
     public static Connection con;
 
-    public DBConnection() {
+    private DBConnection() {
         Properties properties = new Properties();
         InputStream fichierProperties = this.getClass().getResourceAsStream(FICHIER_PROPERTIES);
         if (fichierProperties == null) {
@@ -43,23 +44,26 @@ public class DBConnection implements Serializable {
                     properties.getProperty(PROPERTY_NOM_UTILISATEUR),
                     properties.getProperty(PROPERTY_MOT_DE_PASSE));
         } catch (SQLException ex) {
-            throw new DAOConfigurationException("Impossible d'etablir la connexion !", ex);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    Config.message.getString("DBConnection.connectionToDBErrorTitle"),
+                    Config.message.getString("DBConnection.connectionToDBErrorMessage")));
+            throw new DAOConfigurationException(Config.message.getString("DBConnection.connectionToDBErrorMessage"), ex);
         }
     }
 
-    public static Connection getConnection() {
+    public static synchronized Connection getConnection() {
         if (con == null) {
             new DBConnection();
         }
         return con;
     }
 
-    public static ResultSet getResult(String query) throws SQLException {
+    public static ResultSet getResultDB(String query) throws SQLException {
         PreparedStatement ps = getConnection().prepareStatement(query);
         return ps.executeQuery();
     }
 
-    public static ResultSet getResult(String query, ArrayList parameter) throws SQLException {
+    public static ResultSet getResultDB(String query, ArrayList parameter) throws SQLException {
         PreparedStatement ps = getConnection().prepareStatement(query);
         for (int i = 0; i < parameter.size(); i++) {
             ps.setString(i + 1, parameter.get(i).toString());

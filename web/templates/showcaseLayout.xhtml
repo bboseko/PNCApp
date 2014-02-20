@@ -17,77 +17,25 @@
                 <h:panelGroup layout="block" class="ui-widget-header ui-corner-top pe-layout-pane-header"
                               style="padding: 5px; margin-bottom: 10px; font-size: 12px !important;
                               text-align: center;">
-                    <h:outputText value="Fonctionnalités"/>
+                    <h:outputText value="#{msg['showcaseLayout.module.boxTitle']}"/>
                 </h:panelGroup>
-                <!--<p:menu model="#{homeBean.model}"/>-->
-                <p:menu id="componentList">
-                    <p:menuitem value="Accueil" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('home')}"
-                                icon="ui-icon ui-icon-home"
-                                onclick="selectModuleLink(this)" action="/views/home"/>
-                    <p:separator />
-                    <p:menuitem value="Préparation Budgétaire" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('preparingBudget')}"
-                                icon="ui-icon ui-icon-calculator"
-                                onclick="selectModuleLink(this)" action="/views/preparingBudget"/>
-                    <p:separator />
-                    <p:menuitem value="Exécution Budgétaire" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('executingBudget')}"
-                                icon="ui-icon ui-icon-refresh"
-                                onclick="selectModuleLink(this)" action="/views/executingBudget"/>
-                    <p:separator />
-                    <p:menuitem value="Suivi d'Investissements" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('investissement')}"
-                                icon="ui-icon ui-icon-transferthick-e-w"
-                                onclick="selectModuleLink(this)" action="/views/investissement"/>
-                    <p:separator />
-                    <p:menuitem value="Gestion des Recettes" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('recettes')}"
-                                icon="ui-icon ui-icon-suitcase"
-                                onclick="selectModuleLink(this)" action="/views/recettes"/>
-                    <p:separator />
-                    <p:menuitem value="Gestion de la Trésorerie" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('tresorerie')}"
-                                icon="ui-icon ui-icon-cart"
-                                onclick="selectModuleLink(this)" action="/views/tresorerie"/>
-                    <p:separator />
-                    <p:menuitem value="Comptabilité" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('comptabilite')}"
-                                icon="ui-icon ui-icon-disk"
-                                onclick="selectModuleLink(this)" action="/views/comptabilite" disabled="true"/>
-                    <p:separator />
-                    <p:menuitem value="Gestion de Documents" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('ged')}"
-                                icon="ui-icon ui-icon-note"
-                                onclick="selectModuleLink(this)" action="/views/ged"/>
-                    <p:separator />
-                    <p:menuitem value="Reporting et Statistiques"  style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('reporting')}"
-                                icon="ui-icon ui-icon-print"
-                                onclick="selectModuleLink(this)" action="/views/reporting"/>
-                    <p:separator />
-                    <p:menuitem value="Administration Technique" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('adminTech')}"
-                                icon="ui-icon ui-icon-gear"
-                                onclick="selectModuleLink(this)" action="/views/adminTech"/>
-                    <p:separator />
-                    <p:menuitem value="Configuration" style="font-size: 13px;padding: 4px;"
-                                styleClass="#{navigationContext.getMenuitemStyleClass('configuration')}"
-                                icon="ui-icon ui-icon-wrench"
-                                onclick="selectModuleLink(this)" action="/views/configuration"/>
-                    <p:separator />
-                </p:menu>
+                <p:menu id="functionalityList" model="#{navigationContext.model}"/>
             </p:layoutUnit>
             <p:layoutUnit position="east">
-                <h:panelGroup layout="block" class="ui-widget-header ui-corner-top pe-layout-pane-header"
-                              style="padding: 5px; margin-bottom: 10px; font-size: 12px !important;
-                              text-align: center;">
-                    <h:outputText value="Sous-fonctionnalités"/>
-                </h:panelGroup>
                 <p:layoutUnit position="center">
+                    <h:panelGroup layout="block" class="ui-widget-header ui-corner-top pe-layout-pane-header"
+                                  style="padding: 5px; margin-bottom: 10px; font-size: 12px !important;
+                                  text-align: center;">
+                        <h:outputText value="#{msg['showcaseLayout.submodule.boxTitle']}"/>
+                    </h:panelGroup>
                     <ui:insert name="subModule"/>
                 </p:layoutUnit>
                 <p:layoutUnit position="south">
+                    <h:panelGroup layout="block" class="ui-widget-header ui-corner-top pe-layout-pane-header"
+                                  style="padding: 5px; margin-bottom: 10px; font-size: 12px !important;
+                                  text-align: center;">
+                        <h:outputText value="#{msg['showcaseLayout.operation.boxTitle']}"/>
+                    </h:panelGroup>
                     <ui:insert name="operation"/>
                 </p:layoutUnit>
             </p:layoutUnit>

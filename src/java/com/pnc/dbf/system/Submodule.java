@@ -20,11 +20,11 @@ public class Submodule implements Serializable {
         MenuModel modelSubmodule = new DefaultMenuModel();
         ArrayList parameter = new ArrayList();
         parameter.add(idModule);
-        ResultSet res = DBConnection.getResult("select * from t_submodule where id_module = ?", parameter);
+        ResultSet res = DBConnection.getResultDB("select * from sousFonctionnalite where id_sousfonctionnalite = ?", parameter);
         while (res.next()) {
-            DefaultMenuItem item = new DefaultMenuItem(res.getString("submodule_name"));
-            item.setCommand(res.getString("command"));
-            item.setIcon(res.getString("icon"));
+            DefaultMenuItem item = new DefaultMenuItem(res.getString("nom_sousfonctionnalite"));
+            item.setCommand(res.getString("commande_sousfonctionnalite"));
+            item.setIcon(res.getString("icon_sousfonctionnalite"));
             item.setStyle("font-size: 13px;padding: 4px;");
             modelSubmodule.addElement(item);
             modelSubmodule.addElement(new DefaultSeparator());

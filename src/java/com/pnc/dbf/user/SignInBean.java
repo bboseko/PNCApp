@@ -1,5 +1,6 @@
 package com.pnc.dbf.user;
 
+import com.pnc.dbf.config.Config;
 import com.pnc.dbf.config.DBConnection;
 import java.io.Serializable;
 import java.sql.ResultSet;
@@ -8,7 +9,6 @@ import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -23,7 +23,6 @@ import javax.servlet.http.HttpSession;
 
 public class SignInBean implements Serializable {
 
-    ResourceBundle message = ResourceBundle.getBundle("language.message");
     private String userName;
     private String password;
     private String firstname, familyname;
@@ -35,37 +34,37 @@ public class SignInBean implements Serializable {
 
     public String logInUser() {
         FacesContext context = FacesContext.getCurrentInstance();
-        String query = "select * from t_user where username = ? and password = ?";
+        String query = "select * from utilisateur where identifiant = ? and mot_de_passe = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(getUserName());
         parameter.add(Crypto.encryption(getPassword()));
         try {
             if (!isValideUserName()) {
                 context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                        message.getString("SignInBean.usernameIncorrectTitle"),
-                        message.getString("SignInBean.usernameIncorrectMessage")));
+                        Config.message.getString("SignInBean.usernameIncorrectTitle"),
+                        Config.message.getString("SignInBean.usernameIncorrectMessage")));
             } else {
                 idUser = getIdUserFromDB();
                 if (getStatus() == 0) {
                     context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                            message.getString("SignInBean.accountLockedTitle"),
-                            message.getString("SignInBean.accountLockedMessage")));
+                            Config.message.getString("SignInBean.accountLockedTitle"),
+                            Config.message.getString("SignInBean.accountLockedMessage")));
                 } else {
-                    ResultSet res = DBConnection.getResult(query, parameter);
+                    ResultSet res = DBConnection.getResultDB(query, parameter);
                     if (res.next()) {
-                        idProfile = res.getInt("id_profile");
+                        idProfile = res.getInt("id_profil");
                         profile = getProfileDB();
                         attempt = 0;
                         updateLastVisiteDate();
-                        firstname = res.getString(4);
-                        familyname = res.getString(5);
+                        firstname = res.getString(3);
+                        familyname = res.getString(4);
                         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,
-                                message.getString("SignInBean.welcomeMessage"),
-                                message.getString("SignInBean.helloMessage") + " " + firstname + " " + familyname));
+                                Config.message.getString("SignInBean.welcomeMessage"),
+                                Config.message.getString("SignInBean.helloMessage") + " " + firstname + " " + familyname));
                         if (isNewUser()) {
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                                    message.getString("SignInBean.changePasswordTitle"),
-                                    message.getString("SignInBean.changePasswordMessage")));
+                                    Config.message.getString("SignInBean.changePasswordTitle"),
+                                    Config.message.getString("SignInBean.changePasswordMessage")));
                         }
                         return "views/home";
                     } else {
@@ -73,13 +72,13 @@ public class SignInBean implements Serializable {
                         if ((3 - attempt) <= 0) {
                             setStatus(0);
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL,
-                                    message.getString("SignInBean.accountLockedTitle"),
-                                    message.getString("SignInBean.accountLockedMessage")));
+                                    Config.message.getString("SignInBean.accountLockedTitle"),
+                                    Config.message.getString("SignInBean.accountLockedMessage")));
                         } else {
                             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,
-                                    message.getString("SignInBean.passwordIncorrectTitle"),
-                                    message.getString("SignInBean.passwordIncorrectMessage1") + " " + (3 - attempt) + " "
-                                    + message.getString("SignInBean.passwordIncorrectMessage2")));
+                                    Config.message.getString("SignInBean.passwordIncorrectTitle"),
+                                    Config.message.getString("SignInBean.passwordIncorrectMessage1") + " " + (3 - attempt) + " "
+                                    + Config.message.getString("SignInBean.passwordIncorrectMessage2")));
                         }
                     }
                 }
@@ -91,7 +90,7 @@ public class SignInBean implements Serializable {
     }
 
     private int updateLastVisiteDate() throws SQLException {
-        String query = "update t_user set last_visit_date = ? where id_user = ?";
+        String query = "update utilisateur set date_derniere_visite = ? where id_utilisateur = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", new DateFormatSymbols()).format(new Date()));
         parameter.add(idUser);
@@ -99,27 +98,27 @@ public class SignInBean implements Serializable {
     }
 
     private boolean isValideUserName() throws SQLException {
-        String query = "select * from t_user where username = ?";
+        String query = "select * from utilisateur where identifiant = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(userName);
-        ResultSet res = DBConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResultDB(query, parameter);
         return res.next();
     }
 
     private boolean isNewUser() throws SQLException {
-        String query = "select * from t_user where id_user = ? and new_user = ?";
+        String query = "select * from utilisateur where id_utilisateur = ? and nouveau = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(idUser);
         parameter.add(1);
-        ResultSet res = DBConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResultDB(query, parameter);
         return res.next();
     }
 
     private int getIdUserFromDB() throws SQLException {
-        String query = "select id_user from t_user where username = ?";
+        String query = "select id_utilisateur from utilisateur where identifiant = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(getUserName());
-        ResultSet res = DBConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResultDB(query, parameter);
         while (res.next()) {
             return Integer.parseInt(res.getString(1));
         }
@@ -127,10 +126,10 @@ public class SignInBean implements Serializable {
     }
 
     private int getStatus() throws SQLException {
-        String query = "select status from t_user where id_user = ?";
+        String query = "select statut from utilisateur where id_utilisateur = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(idUser);
-        ResultSet res = DBConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResultDB(query, parameter);
         while (res.next()) {
             return Integer.parseInt(res.getString(1));
         }
@@ -138,7 +137,7 @@ public class SignInBean implements Serializable {
     }
 
     private int setStatus(int status) throws SQLException {
-        String query = "update t_user set status = ? where id_user = ?";
+        String query = "update utilisateur set statut = ? where id_utilisateur = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(status);
         parameter.add(idUser);
@@ -146,10 +145,10 @@ public class SignInBean implements Serializable {
     }
 
     private String getProfileDB() throws SQLException {
-        String query = "select profile_name from t_profile where id_profile = ?";
+        String query = "select nom_profil from profil where id_profil = ?";
         ArrayList parameter = new ArrayList();
         parameter.add(idProfile);
-        ResultSet res = DBConnection.getResult(query, parameter);
+        ResultSet res = DBConnection.getResultDB(query, parameter);
         while (res.next()) {
             return res.getString(1);
         }

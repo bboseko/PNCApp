@@ -28,19 +28,19 @@ body > form > .ui-layout-south {
     height: 55px;
 }
 
-#componentList,
+#functionalityList,
 #useCaseList {
     border-width: 0;
     background: none;
     white-space: nowrap;
 }
 
-#componentList .ui-menuitem-link,
+#functionalityList .ui-menuitem-link,
 #useCaseList .ui-menuitem-link {
     padding: 0.10em;
 }
 
-#componentList .ui-separator {
+#functionalityList .ui-separator {
     margin: 5px 0;
     width: 120%;
 }

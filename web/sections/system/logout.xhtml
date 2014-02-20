@@ -5,17 +5,17 @@
     <h:head>
         <link type="image/x-icon" rel="shortcut icon" href="#{request.contextPath}/resources/images/favicon.ico" />
         <h:outputStylesheet library="css" name="logout.css"/>
-        <title>Déconnexion</title>
+        <title>#{msg['logOut.pageTitle']}</title>
     </h:head>
     <h:body>
         <div id="error-page" class="container">
             <div>
                 <p class="error-message"><br/><br/><br/>
-                    Vous êtes déconnecté ...<br/><br/>
-                    <a id="btConnection" title="Connexion"
+                    #{msg['logOut.messageLogOut']}<br/><br/>
+                    <a id="btConnection" title="#{msg['logOut.buttonTitle']}"
                        href="#{request.contextPath}"
                        class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
-                        Connexion
+                        #{msg['logOut.buttonMessage']}
                     </a>
                 </p>
             </div>

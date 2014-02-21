@@ -132,12 +132,7 @@ public class User implements Serializable {
     }
 
     public String login() throws Exception {
-        System.out.println("login debute");
         this.setIdProfile(getProfile());
-        if (this.idProfile != null) {
-            this.modules = new Authentification().getUserModules(this);
-        }
-        System.out.println("login fini");
         return new Authentification().enter(this);
     }
 

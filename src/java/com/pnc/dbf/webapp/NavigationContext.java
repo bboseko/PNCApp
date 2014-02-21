@@ -1,10 +1,13 @@
 package com.pnc.dbf.webapp;
 
 import com.pnc.dbf.config.DBConnection;
+import com.pnc.dbf.sec.Authentification;
+import com.pnc.dbf.system.Fonctionnalite;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -22,21 +25,19 @@ public class NavigationContext implements Serializable {
     private static final long serialVersionUID = 20111020L;
     private MenuModel model = new DefaultMenuModel();
 
-    public NavigationContext() throws SQLException {
+    public NavigationContext() throws Exception {
         FacesContext context = FacesContext.getCurrentInstance();
-        ValueBinding binding = context.getApplication().createValueBinding("#{signInBean.idProfile}");
-
-        ArrayList parameter = new ArrayList();
-        parameter.add(Integer.parseInt(binding.getValue(context).toString()));
-        ResultSet res = DBConnection.getResultDB("select * from fonctionnalite inner join acceder on "
-                + "acceder.id_fonctionnalite = fonctionnalite.id_fonctionnalite where id_profil = ?", parameter);
-        while (res.next()) {
-            DefaultMenuItem item = new DefaultMenuItem(res.getString("shortname_fonctionnalite"));
-            item.setTitle(res.getString("nom_fonctionnalite"));
-            item.setCommand(res.getString("commande_fonctionnalite"));
-            item.setIcon(res.getString("icone_fonctionnalite"));
+        ValueBinding binding = context.getApplication().createValueBinding("#{user.idProfile}");
+        ArrayList<Fonctionnalite> foncts = new Authentification().getUserModules(Integer.parseInt(binding.getValue(context).toString()));
+        Iterator<Fonctionnalite> it =  foncts.iterator();
+        while (it.hasNext()) {
+            Fonctionnalite f = it.next();
+            DefaultMenuItem item = new DefaultMenuItem(f.getShortname_fonctionnalite());
+            item.setTitle(f.getNom_fonctionnalite());
+            item.setCommand(f.getCommande_fonctionnalite());
+            item.setIcon(f.getIcone_fonctionnalite());
             item.setOnclick("selectFunctionalityLink(this)");
-            item.setStyleClass(getMenuitemStyleClass(res.getString("page_fonctionnalite")));
+            item.setStyleClass(getMenuitemStyleClass(f.getPage_fonctionnalite()));
             item.setStyle("font-size: 13px;padding: 4px;");
             model.addElement(item);
             model.addElement(new DefaultSeparator());

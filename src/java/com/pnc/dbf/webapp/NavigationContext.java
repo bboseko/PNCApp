@@ -39,6 +39,7 @@ public class NavigationContext implements Serializable {
             item.setOnclick("selectFunctionalityLink(this)");
             item.setStyleClass(getMenuitemStyleClass(f.getPage_fonctionnalite()));
             item.setStyle("font-size: 13px;padding: 4px;");
+            item.setHref("/faces/views/revenue.xhtml");
             model.addElement(item);
             model.addElement(new DefaultSeparator());
         }

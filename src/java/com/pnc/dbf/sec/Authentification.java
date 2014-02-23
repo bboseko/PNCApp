@@ -56,7 +56,7 @@ public class Authentification implements Serializable{
         return modules;        
     }
     
-    public String enter(User user){
+    public String enter(User user) throws Exception{
         FacesContext fc = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
         HttpSession session =  request.getSession();

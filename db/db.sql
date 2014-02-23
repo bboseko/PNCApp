@@ -608,20 +608,22 @@ DROP TABLE IF EXISTS `historique`;
 CREATE TABLE `historique` (
   `id_historique` int(11) NOT NULL AUTO_INCREMENT,
   `ip_historique` varchar(128) DEFAULT NULL,
-  `nomMacchine_historique` varchar(50) DEFAULT NULL,
+  `nomMachine_historique` varchar(50) DEFAULT NULL,
   `mac_historique` varchar(128) DEFAULT NULL,
   `fonctionnalite_historique` varchar(50) DEFAULT NULL,
-  `operation_hitorique` varchar(50) DEFAULT NULL,
-  `date_historique` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `operation_historique` text,
+  `date_historique` date NOT NULL,
   `idUtilisateur_historique` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_historique`),
   KEY `idUtilisateur_historique` (`idUtilisateur_historique`),
   CONSTRAINT `historique_ibfk_1` FOREIGN KEY (`idUtilisateur_historique`) REFERENCES `utilisateur` (`id_utilisateur`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 /*Data for the table `historique` */
 
 LOCK TABLES `historique` WRITE;
+
+insert  into `historique`(`id_historique`,`ip_historique`,`nomMachine_historique`,`mac_historique`,`fonctionnalite_historique`,`operation_historique`,`date_historique`,`idUtilisateur_historique`) values (1,'0:0:0:0:0:0:0:1','0:0:0:0:0:0:0:1','','/index.xhtml','C:\\Users\\IMA7\\Documents\\Soft-RDC\\PNCApp\\build\\web\\index.xhtml','2014-02-23',1);
 
 UNLOCK TABLES;
 

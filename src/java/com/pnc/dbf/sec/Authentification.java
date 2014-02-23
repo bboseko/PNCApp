@@ -12,6 +12,9 @@ import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -23,19 +26,13 @@ public class Authentification implements Serializable{
     }
 
     
-    public Integer getUserProfile(User user) throws Exception{
-        System.out.println("le user recu est :"+ user.getUserName()+" "+user.getPassword());
+    public ResultSet getUserPersistent(User user) throws Exception{
         String requette = "SELECT * FROM utilisateur WHERE utilisateur.identifiant=? AND utilisateur.mot_de_passe=?";
         ArrayList parameter = new ArrayList();
         parameter.add(user.getUserName());
         parameter.add(Crypto.encryption(user.getPassword()));
         ResultSet res = DBConnection.getResultDB(requette, parameter);
-        if(res.next()){
-            System.out.println("profile obtenu est "+ res.getInt("id_profil"));
-            return res.getInt("id_profil");            
-        }else{
-            return null;
-        }
+        return res;
     }
     
     public ArrayList<Fonctionnalite> getUserModules(Integer idProfile) throws Exception{
@@ -60,6 +57,14 @@ public class Authentification implements Serializable{
     }
     
     public String enter(User user){
+        FacesContext fc = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
+        HttpSession session =  request.getSession();
+        if(!session.isNew()){
+            session.invalidate();
+            session = request.getSession();
+            session.setAttribute("user", user);
+        }
         return new Autorisation().decision("views/home", user);
         
     }

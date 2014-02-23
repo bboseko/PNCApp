@@ -78,4 +78,10 @@ public class DBConnection implements Serializable {
         }
         return ps.executeUpdate();
     }
+    
+    public static int setUpdateDB(String fullQuery){
+        
+        return 1;
+        
+    }
 }

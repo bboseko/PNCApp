@@ -2,6 +2,7 @@ package com.pnc.dbf.user;
 
 import com.pnc.dbf.sec.Authentification;
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -10,6 +11,7 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class User implements Serializable {
 
+    private Integer id;
     private String firstName;
     private String familyName;
     private String otherName;
@@ -123,16 +125,20 @@ public class User implements Serializable {
 
     
 
-    private Integer getProfile() throws Exception {
-        return new Authentification().getUserProfile(this);
-    }
+//    private Integer getProfile() throws Exception {
+//        return new Authentification().getUserProfile(this);
+//    }
 
     public void setIdProfile(Integer idProfile) {
         this.idProfile = idProfile;
     }
 
     public String login() throws Exception {
-        this.setIdProfile(getProfile());
+        ResultSet res = new Authentification().getUserPersistent(this);
+        if(res.next()){
+            this.setIdProfile(res.getInt("id_profil"));
+            this.setId(res.getInt("id_utilisateur"));
+        }
         return new Authentification().enter(this);
     }
 
@@ -150,5 +156,13 @@ public class User implements Serializable {
 
     public void setModules(HashMap modules) {
         this.modules = modules;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

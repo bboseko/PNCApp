@@ -22,7 +22,6 @@ public class User implements Serializable {
     private String userName;
     private String password;
     private Integer idProfile;
-    private String[] paths;
     private HashMap modules;
 
     public User() {
@@ -140,14 +139,6 @@ public class User implements Serializable {
             this.setId(res.getInt("id_utilisateur"));
         }
         return new Authentification().enter(this);
-    }
-
-    public String[] getPaths() {
-        return paths;
-    }
-
-    public void setPaths(String[] paths) {
-        this.paths = paths;
     }
 
     public HashMap getModules() {

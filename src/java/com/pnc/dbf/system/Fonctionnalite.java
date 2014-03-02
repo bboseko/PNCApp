@@ -9,13 +9,8 @@ package com.pnc.dbf.system;
  * @author IMA7
  */
 import java.io.Serializable;
-import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import org.primefaces.model.menu.DefaultMenuItem;
-import org.primefaces.model.menu.DefaultMenuModel;
-import org.primefaces.model.menu.DefaultSeparator;
-import org.primefaces.model.menu.MenuModel;
 
 @ManagedBean
 @SessionScoped
@@ -26,14 +21,16 @@ public class Fonctionnalite implements Serializable{
     private String commande_fonctionnalite;
     private String page_fonctionnalite;
     private String icone_fonctionnalite;
+    private String chemin_fonctionnalite;
 
-    public Fonctionnalite(Integer id_fonctionnalite, String nom_fonctionnalite, String shortname_fonctionnalite, String commande_fonctionnalite, String page_fonctionnalite, String icone_fonctionnalite) {
+    public Fonctionnalite(Integer id_fonctionnalite, String nom_fonctionnalite, String shortname_fonctionnalite, String commande_fonctionnalite, String page_fonctionnalite, String icone_fonctionnalite, String chemin_fonctionnalite) {
         this.id_fonctionnalite = id_fonctionnalite;
         this.nom_fonctionnalite = nom_fonctionnalite;
         this.shortname_fonctionnalite = shortname_fonctionnalite;
         this.commande_fonctionnalite = commande_fonctionnalite;
         this.page_fonctionnalite = page_fonctionnalite;
         this.icone_fonctionnalite = icone_fonctionnalite;
+        this.chemin_fonctionnalite = chemin_fonctionnalite;
     }
 
     public Fonctionnalite() {
@@ -86,4 +83,12 @@ public class Fonctionnalite implements Serializable{
     public void setIcone_fonctionnalite(String icone_fonctionnalite) {
         this.icone_fonctionnalite = icone_fonctionnalite;
     } 
+
+    public String getChemin_fonctionnalite() {
+        return chemin_fonctionnalite;
+    }
+
+    public void setChemin_fonctionnalite(String chemin_fonctionnalite) {
+        this.chemin_fonctionnalite = chemin_fonctionnalite;
+    }
 }
